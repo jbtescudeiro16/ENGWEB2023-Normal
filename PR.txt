@@ -1,0 +1,22 @@
+Após analisar o dataset, percebi que ele continha inconsistências no nome dos atributos . 
+Assim criei um script python (con.py) que trata o dataset preparando-o para ser incluido no mongoDB.
+Após isto realizei o seguinte comando para importar o data set no mongoDB: "mongoimport -d plantas -c plantas --file plantas4.json --jsonArray
+".
+
+Resposta às queries : 
+
+1-> db.plantas.count()
+
+2-> db.plantas.count({ "Freguesia": "São Domingos de Rana" })
+
+3-> db.plantas.distinct("Freguesia").sort()
+
+4-> db.plantas.aggregate([
+  { $group: { _id: "$Freguesia", total: { $sum: 1 } } },
+  { $sort: { _id: 1 } }
+])
+
+5-> db.plantas.aggregate([
+  { $group: { _id: "$Especie", total: { $sum: 1 } } },
+  { $sort: { total: -1 } }
+])
